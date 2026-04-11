@@ -3,10 +3,13 @@ import {authenticate} from "../middlewares/authorization.js";
 import  validator from "../middlewares/validator.js"
 import { confirmPayment, deposit, depositTransactions, listAllTransactions, userTransactionHistory } from "../controllers/transaction-controller.js";
 import uploadImage from "../helpers/file-upload.js";
+import { invest } from "../controllers/invest-controller.js";
+
 import { createTransactionnPin, updatePaymentPin, validatePaymentPin } from "../controllers/user.controller.js";
 import paymentPinValidations from "../schemas/transaction-validations.js";
 
 const transactionRoute = Router();
+transactionRoute.route("/invest").post(authenticate, invest);
 
 transactionRoute.route("/deposit").post(authenticate, deposit);
 

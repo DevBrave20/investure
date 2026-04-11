@@ -4,6 +4,6 @@ import { invest } from "../controllers/invest-controller.js";
 
 const investRoute = Router();
 
-investRoute.route("/invest").post(authenticate, invest);
+// investRoute.route("/invest").post(authenticate, invest);
 
 export default investRoute;
