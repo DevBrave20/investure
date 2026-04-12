@@ -69,10 +69,10 @@ app.use("/api", investRoute);
 app.use("/api", adminRoute);
 app.use("/api", withdrawRoute);
 
-// app.all("*", (req, res) => {
-//   res.status(404).json({
-//     message: `This Route ${req.originalUrl} does not exist on this Server`,
-//   });
-// });
+app.all("*", (req, res) => {
+  res.status(404).json({
+    message: `This Route ${req.originalUrl} does not exist on this Server`,
+  });
+});
 
 export default app;
