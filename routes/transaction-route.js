@@ -1,5 +1,5 @@
 import { Router } from "express";
-import {authenticate} from "../middlewares/authorization.js";
+import {authenticate, authenticateAdmin} from "../middlewares/authorization.js";
 import  validator from "../middlewares/validator.js"
 import { confirmPayment, deposit, depositTransactions, listAllTransactions, userTransactionHistory } from "../controllers/transaction-controller.js";
 import uploadImage from "../helpers/file-upload.js";
@@ -24,6 +24,6 @@ transactionRoute.route("/pin").patch(validator(paymentPinValidations), authentic
 
 transactionRoute.route("/transactions/pin").post(validator(paymentPinValidations) ,  authenticate ,validatePaymentPin);
 
-transactionRoute.route("/transactions/deposit").get(authenticate, depositTransactions)
+transactionRoute.route("/transactions/deposit").get(authenticateAdmin, depositTransactions)
 
 export default transactionRoute;
