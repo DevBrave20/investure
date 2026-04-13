@@ -93,7 +93,7 @@ export const authenticateAdmin = async (req, res, next) => {
   } catch (error) {
     if (error instanceof jwt.JsonWebTokenError) {
       return res.status(401).json({
-        message: "Oops! Access denied. Your session has expired. Please sign in again.",
+        message: error.message,
       });
     }
     res.status(500).json({
