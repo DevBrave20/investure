@@ -9,9 +9,9 @@ const options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "QuantumTrade API Documentation",
+      title: "investure API Documentation",
       version: "1.0.0",
-      description: "Complete API documentation for QuantumTrade - A cryptocurrency investment platform",
+      description: "Complete API documentation for investure - A cryptocurrency investment platform",
       contact: {
         name: "API Support",
         email: "support@cryptexion.com",
@@ -23,7 +23,7 @@ const options = {
         description: "Development server",
       },
       {
-        url: "https://api.quantumtrade.com/api",
+        url: "https://api.investure.com/api",
         description: "Production server",
       },
     ],

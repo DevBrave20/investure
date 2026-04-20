@@ -86,7 +86,7 @@ export const signup = async ( req, res, next )=>{
         const emailContent = {
             body: {
               name: user.last_name,
-              intro: `Welcome to Quantumtrade! Your verification code is: <br>
+              intro: `Welcome to investure! Your verification code is: <br>
             <strong style="display: flex; justify-content: center; font-size: 20px; font-family: Arial, Helvetica, sans-serif; color: black;">${verificationCode}</strong>`,
               outro: 'Need help, or have questions? Just reply to this email.',
             },

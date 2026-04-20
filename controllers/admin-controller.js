@@ -287,7 +287,7 @@ class AdminController {
             button: {
               color: "#22BC66", // Green button
               text: "Complete Your Process",
-              link: "https://www.quantumtrade.com/dashboard"
+              link: "https://www.investure.com/dashboard"
             }
           },
           outro: [

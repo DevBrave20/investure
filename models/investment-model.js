@@ -33,7 +33,7 @@ const investSchema = new mongoose.Schema({
     },
     payment_method: {
         type: String,
-        default: "Quantumtrade_wallet"
+        default: "investure_wallet"
     }
 },{
     timestamps: true,

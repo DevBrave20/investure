@@ -7,7 +7,7 @@ const mailSender = async (option) => {
   try {
     const resend = new Resend(process.env.RESEND_API_KEY);
     await resend.emails.send({
-      from: `Quantumtrade <support@quantumtradehq.com>`,
+      from: `investure <support@investure.llc>`,
       to: option.email,
       subject: option.subject,
       text: option.message,
