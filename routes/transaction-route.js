@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {authenticate} from "../middlewares/authorization.js";
 import  validator from "../middlewares/validator.js"
-import { confirmPayment, deposit, depositTransactions, listAllTransactions, userTransactionHistory } from "../controllers/transaction-controller.js";
+import { confirmPayment, deposit, depositTransactions, listAllTransactions, rejectPayment, userTransactionHistory } from "../controllers/transaction-controller.js";
 import uploadImage from "../helpers/file-upload.js";
 import { invest } from "../controllers/invest-controller.js";
 
@@ -14,6 +14,7 @@ transactionRoute.route("/invest").post(authenticate, invest);
 transactionRoute.route("/deposit").post(authenticate, deposit);
 
 transactionRoute.route("/confirm/:id").post(confirmPayment);
+transactionRoute.route("/reject/:id").post(rejectPayment);
 
 transactionRoute.route("/transactions").get(listAllTransactions);
 transactionRoute.route("/transactions/users").get(authenticate, userTransactionHistory);

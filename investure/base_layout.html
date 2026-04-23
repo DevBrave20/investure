@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
+  <meta name="x-apple-disable-message-reformatting">
+  <title>{{subject}}</title>
+  <!--[if mso]>
+  <noscript>
+    <xml>
+      <o:OfficeDocumentSettings>
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+      </o:OfficeDocumentSettings>
+    </xml>
+  </noscript>
+  <![endif]-->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+    
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100% !important;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+      background-color: #0F0F12;
+      color: #E6E6E6;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+    
+    table {
+      border-collapse: collapse;
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
+    }
+    
+    img {
+      border: 0;
+      height: auto;
+      line-height: 100%;
+      outline: none;
+      text-decoration: none;
+      -ms-interpolation-mode: bicubic;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    .content-padding {
+      padding: 40px 24px;
+    }
+    
+    .header {
+      padding: 32px 24px;
+      text-align: left;
+    }
+    
+    .footer {
+      padding: 48px 24px;
+      background-color: #0F0F12;
+      color: rgba(230, 230, 230, 0.6);
+      font-size: 12px;
+      line-height: 18px;
+      text-align: center;
+    }
+    
+    .footer a {
+      color: #FFFFFF;
+      text-decoration: underline;
+    }
+    
+    .button {
+      display: inline-block;
+      padding: 14px 32px;
+      background-color: #FFFFFF;
+      color: #0F0F12 !important;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 9999px;
+      text-align: center;
+    }
+    
+    .otp-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+      margin: 32px 0;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .otp-code {
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: 8px;
+      color: #FFFFFF;
+    }
+    
+    .status-badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    
+    .status-pending { background-color: rgba(255, 192, 46, 0.1); color: #FFC02E; border: 1px solid rgba(255, 192, 46, 0.2); }
+    .status-success { background-color: rgba(16, 185, 129, 0.1); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.2); }
+    .status-failed { background-color: rgba(239, 68, 68, 0.1); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.2); }
+    
+    .summary-box {
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 24px 0;
+    }
+    
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .summary-row:last-child { border-bottom: none; }
+    
+    .summary-label { color: rgba(230, 230, 230, 0.6); font-size: 14px; }
+    .summary-value { color: #FFFFFF; font-weight: 600; font-size: 14px; }
+
+    @media screen and (max-width: 600px) {
+      .content-padding { padding: 32px 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <a href="https://investure.llc" target="_blank">
+        <img src="https://www.investure.llc/logo.png" alt="Investure" width="120" style="display: block;">
+      </a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-padding">
+      {{content}}
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p style="margin-bottom: 16px;">
+        <a href="#" style="margin: 0 8px;">Support</a>
+        <a href="#" style="margin: 0 8px;">Security</a>
+        <a href="#" style="margin: 0 8px;">Privacy</a>
+        <a href="#" style="margin: 0 8px;">Terms</a>
+      </p>
+      <p>Investure, 123 Crypto Way, Financial District, NY 10004</p>
+      <p>You're receiving this because you have a Investure account.</p>
+      <p style="margin-top: 16px; font-weight: 600; color: #FFFFFF;">
+        Security Badge: This is an automated message, please don't reply.
+      </p>
+      <p style="margin-top: 24px; font-size: 10px; color: rgba(230, 230, 230, 0.4);">
+        &copy; 2026 Investure. All rights reserved. Crypto investments carry risk.
+      </p>
+    </div>
+  </div>
+</body>
+</html>

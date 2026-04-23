@@ -11,7 +11,7 @@ const mailSender = async (option) => {
       to: option.email,
       subject: option.subject,
       text: option.message,
-      html: option.htmlTemplate,
+      html: option.html ?? option.htmlTemplate,
     });
   } catch (error) {
     console.log(error);

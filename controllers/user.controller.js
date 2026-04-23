@@ -5,10 +5,10 @@ dotenv.config();
 import User from "../models/users.model.js";
 import {changePasswordSchema, userLoginSchema, userSchemaValidation, userVerification} from "../schemas/user.schema.js";
 import { generateUserToken } from "../utils/jwt.token.js";
-import mailGenerator from "../utils/mail.generator.js";
 import mailSender from "../middlewares/email.js";
 import Invest from "../models/investment-model.js";
 import Transaction from "../models/transaction-model.js";
+import { renderEmailTemplate } from "../utils/email-templates.js";
 
 const updateVerification = async(user_id)=>{
     const entity = await User.findById(user_id);
@@ -83,17 +83,15 @@ export const signup = async ( req, res, next )=>{
           }
         await user.save();
 
-        const emailContent = {
-            body: {
-              name: user.last_name,
-              intro: `Welcome to investure! Your verification code is: <br>
-            <strong style="display: flex; justify-content: center; font-size: 20px; font-family: Arial, Helvetica, sans-serif; color: black;">${verificationCode}</strong>`,
-              outro: 'Need help, or have questions? Just reply to this email.',
-            },
-          };
-          const emailBody = mailGenerator.generate(emailContent);
-          const emailText = mailGenerator.generatePlaintext(emailContent);
-        
+        const { html: emailBody, text: emailText } = await renderEmailTemplate("welcomeOtp", {
+          user: {
+            firstName,
+          },
+          otp: {
+            code: verificationCode,
+          },
+        });
+
           mailSender({
             from: {
               address: process.env.EMAIL
@@ -202,26 +200,16 @@ export const forgotPassword = async (req, res, next)=>{
         }
       
         const changeAccountRoute = `https://www.expertcoininvest.com/#/resetpassword/${user._id}`;      
-        const emailContent = {
-          body: {
-            signature: "Sincerely",
-            name: `${user.last_name}`,
-            intro: `You have requested to reset your password. Please click the button below to proceed:`,
-            action: {
-              instructions: 'To reset your password, please click the button below:',
-              button: {
-                color: '#e5c56d',
-                text: 'Reset Password',
-                link: changeAccountRoute,
-              },
-      
-            },
-            outro: 'If you did not sign up for our site, you can ignore this email.',
+        const { html: emailBody, text: emailText } = await renderEmailTemplate("passwordReset", {
+          reset: {
+            link: changeAccountRoute,
           },
-        };
-        const emailBody = mailGenerator.generate(emailContent);
-        const emailText = mailGenerator.generatePlaintext(emailContent);
-      
+          timestamp: new Date().toLocaleString("en-US", {
+            dateStyle: "medium",
+            timeStyle: "short",
+          }),
+        });
+
         mailSender({
           from: {
             address: process.env.EMAIL
@@ -266,6 +254,24 @@ export const changePassword = async (req, res, next)=>{
           {
             password: hashPassword
           });
+
+        const { html: emailBody, text: emailText } = await renderEmailTemplate("passwordChanged", {
+          timestamp: new Date().toLocaleString("en-US", {
+            dateStyle: "medium",
+            timeStyle: "short",
+          }),
+        });
+
+        mailSender({
+          from: {
+            address: process.env.EMAIL
+          },
+          email: user.email,
+          subject: "Password Updated Successfully",
+          message: emailText,
+          html: emailBody
+        });
+
         return res.status(200).json({
             message: "Update successful."
         })

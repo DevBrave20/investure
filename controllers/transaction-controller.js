@@ -3,8 +3,8 @@ import Transaction from "../models/transaction-model.js";
 import User from "../models/users.model.js";
 import Withdraw from "../models/withdraw-model.js";
 import Cloudinary from "../utils/cloudinary.js";
-import mailGenerator from "../utils/mail.generator.js";
 import { invest } from "./invest-controller.js";
+import { renderEmailTemplate } from "../utils/email-templates.js";
 
 export const  deposit = async (req, res)=>{
     try {
@@ -39,18 +39,17 @@ export const  deposit = async (req, res)=>{
             }
         };
         const deposit = await Transaction.create(depositData);
-        const emailContent = {
-            body: {
-              name: userData.last_name,
-              intro: `This is to inform you that your deposit of $${deposit.investment.amount} is successful, Please 
-              wait while we process your payment. you will recieve an email shortly about the status of your payment.`,
-            button: {},
-              outro: 'Need help, or have questions? Just reply to this email.',
-            },
-          };
-          const emailBody = mailGenerator.generate(emailContent);
-          const emailText = mailGenerator.generatePlaintext(emailContent);
-        
+        const { html: emailBody, text: emailText } = await renderEmailTemplate("depositInitiated", {
+          transaction: {
+            amount: `$${deposit.investment.amount}`,
+            id: deposit._id,
+          },
+          timestamp: new Date(deposit.createdAt).toLocaleString("en-US", {
+            dateStyle: "medium",
+            timeStyle: "short",
+          }),
+        });
+
           mailSender({
             from: {
               address: 'cryptexionhq@gmail.com'
@@ -113,6 +112,23 @@ export const confirmPayment = async (req, res ) =>{
                     message: "An error occured while processing the payment."
                 })
              }
+
+             const { html: emailBody, text: emailText } = await renderEmailTemplate("depositCompleted", {
+                transaction: {
+                  amount: `$${transaction.withdrawable_balance}`,
+                },
+             });
+
+             mailSender({
+                from: {
+                  address: process.env.EMAIL
+                },
+                email: userWhoMadeTheTransaction.email,
+                subject: "Deposit Completed Successfully",
+                message: emailText,
+                html: emailBody
+             });
+
              return res.status(200).json({
                 message: "Payment confirmed successful."
              })
@@ -122,6 +138,57 @@ export const confirmPayment = async (req, res ) =>{
             status: "failed",
             data: error
         }); 
+    }
+};
+
+export const rejectPayment = async (req, res) => {
+    try {
+        const transactionId = req.params.id;
+        const transaction = await Transaction.findOne({
+          $and: [{ _id: transactionId }, { processed: false }, { transaction_type: "deposit" }],
+        });
+
+        if (!transaction) {
+          return res.status(404).json({
+            message: "Deposit transaction not found or already processed.",
+          });
+        }
+
+        const user = await User.findById(transaction.user_id);
+        if (!user) {
+          return res.status(404).json({
+            message: "User not found.",
+          });
+        }
+
+        transaction.processed = true;
+        transaction.status = "failed";
+        await transaction.save();
+
+        const { html: emailBody, text: emailText } = await renderEmailTemplate("depositFailed", {
+          transaction: {
+            amount: `$${transaction.withdrawable_balance}`,
+          },
+        });
+
+        mailSender({
+          from: {
+            address: process.env.EMAIL,
+          },
+          email: user.email,
+          subject: "Deposit Failed",
+          message: emailText,
+          html: emailBody,
+        });
+
+        return res.status(200).json({
+          message: "Payment marked as failed.",
+        });
+    } catch (error) {
+        return res.status(500).json({
+            status: "failed",
+            message: error.message,
+        });
     }
 };
 
